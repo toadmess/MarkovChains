@@ -19,6 +19,13 @@ import org.abatons.markov.graph.dictionary.DictionaryLookupCached;
 import org.apache.commons.io.FileUtils;
 
 public class GraphCompiler {
+   /**
+    * @param args The paths of the text files to read in an generate graphs for
+    *  
+    * @throws IOException
+    * @throws ClassNotFoundException
+    * @throws SQLException
+    */
    public static void main(final String[] args) throws IOException, ClassNotFoundException, SQLException {
       for (final String filename : args) {
          final String allText = FileUtils.readFileToString(new File(filename));

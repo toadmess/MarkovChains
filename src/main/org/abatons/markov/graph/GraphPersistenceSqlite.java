@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.abatons.markov.graph.dictionary.Dictionary;
 import org.abatons.markov.graph.dictionary.DictionaryLookup;
+import org.abatons.markov.graph.dictionary.DictionaryLookupBinarySearch;
 import org.abatons.markov.graph.dictionary.DictionaryLookupCached;
 
 public class GraphPersistenceSqlite implements GraphPersistence {
@@ -200,7 +201,6 @@ public class GraphPersistenceSqlite implements GraphPersistence {
 
       rsWords.close();
 
-      // FIXME: Change from the cached dictionary to one that plays nicely on a resource limited device.
-      return new DictionaryLookupCached(wordList.toArray(new String[0]));
+      return new DictionaryLookupBinarySearch(wordList.toArray(new String[0]));
    }
 }

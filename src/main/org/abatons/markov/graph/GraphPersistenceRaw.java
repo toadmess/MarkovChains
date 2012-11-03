@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.abatons.markov.graph.dictionary.Dictionary;
 import org.abatons.markov.graph.dictionary.DictionaryLookup;
+import org.abatons.markov.graph.dictionary.DictionaryLookupBinarySearch;
 import org.abatons.markov.graph.dictionary.DictionaryLookupCached;
 
 public class GraphPersistenceRaw implements GraphPersistence {
@@ -96,10 +97,7 @@ public class GraphPersistenceRaw implements GraphPersistence {
             uniqueAndSortedWords[wordId] = dis.readUTF();
          }
          
-         // TODO: Don't use the cached implementation of DictionaryLookup, instead use a memory efficient version.
-         final DictionaryLookup dict = new DictionaryLookupCached(uniqueAndSortedWords);
-         
-         
+         final DictionaryLookup dict = new DictionaryLookupBinarySearch(uniqueAndSortedWords);
          
          final int numWordHistories = dis.readInt();
          
@@ -191,7 +189,6 @@ public class GraphPersistenceRaw implements GraphPersistence {
 
       rsWords.close();
 
-      // FIXME: Change from the cached dictionary to one that plays nicely on a resource limited device.
-      return new DictionaryLookupCached(wordList.toArray(new String[0]));
+      return new DictionaryLookupBinarySearch(wordList.toArray(new String[0]));
    }
 }
