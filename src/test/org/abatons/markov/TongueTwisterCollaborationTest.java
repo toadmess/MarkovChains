@@ -163,8 +163,6 @@ public class TongueTwisterCollaborationTest {
 
     final Graph g = GraphCompiler.createGraph(source, 1);
 
-    final NonRandomNG rng = new NonRandomNG();
-
     final char wordIdThe = g.getDictionary().getWordId("the");
     final char wordIdEarth = g.getDictionary().getWordId("earth");
 

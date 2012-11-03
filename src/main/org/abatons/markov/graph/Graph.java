@@ -60,7 +60,7 @@ public class Graph {
         Arrays.sort(sortedHistorySigs);
         for(final String indexHistory : sortedHistorySigs) {
             int numTargetWords = 0;
-            for(final TransitionProbability transition : wordHistoryToTransitions.get(indexHistory)) {
+            for(@SuppressWarnings("unused") final TransitionProbability transition : wordHistoryToTransitions.get(indexHistory)) {
                 numTargetWords++;
             }
             

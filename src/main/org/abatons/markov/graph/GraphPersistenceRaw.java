@@ -5,17 +5,12 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 import org.abatons.markov.graph.dictionary.Dictionary;
 import org.abatons.markov.graph.dictionary.DictionaryLookup;
 import org.abatons.markov.graph.dictionary.DictionaryLookupBinarySearch;
-import org.abatons.markov.graph.dictionary.DictionaryLookupCached;
 
 public class GraphPersistenceRaw implements GraphPersistence {
    private final String filename;
@@ -136,59 +131,5 @@ public class GraphPersistenceRaw implements GraphPersistence {
             } catch(Throwable anything){}
          }
       }
-   }
-
-   private Map<String, Transitions> loadHistoryTransitionsMap(final Statement stat) throws SQLException {
-      final Map<String, Transitions> wordHistoryToTransitions = new HashMap<String, Transitions>();
-
-      final String sql = "SELECT h.history, t.target_words_id, t.numerator, t.denominator "
-            + "FROM histories h, transitions t " + "WHERE h.id = t.histories_id "
-            + "ORDER BY h.history, t.sequence ASC;";
-
-      final ResultSet rsTransitions = stat.executeQuery(sql);
-
-      {
-         String currentHistory = null;
-         Transitions currentHistoryTransitions = null;
-         boolean hasResultsLeft = rsTransitions.next();
-
-         while (hasResultsLeft) {
-            final String wordHistory = rsTransitions.getString("history");
-            final char tagetWordId = (char) rsTransitions.getInt("target_words_id");
-            final byte numerator = rsTransitions.getByte("numerator");
-            final byte denominator = rsTransitions.getByte("denominator");
-
-            if (!wordHistory.equals(currentHistory)) {
-               currentHistory = wordHistory;
-               currentHistoryTransitions = new Transitions();
-
-               wordHistoryToTransitions.put(currentHistory, currentHistoryTransitions);
-            }
-
-            hasResultsLeft = rsTransitions.next();
-
-            currentHistoryTransitions.addTransition(tagetWordId, numerator, denominator, !hasResultsLeft);
-         }
-      }
-
-      rsTransitions.close();
-
-      return wordHistoryToTransitions;
-   }
-
-   private DictionaryLookup loadDictionary(final Statement stat) throws SQLException {
-      final LinkedList<String> wordList = new LinkedList<String>();
-
-      final ResultSet rsWords = stat.executeQuery("SELECT id, word FROM words ORDER BY id ASC;");
-
-      while (rsWords.next()) {
-         assert (wordList.size() == rsWords.getInt("id"));
-
-         wordList.add(rsWords.getString("word"));
-      }
-
-      rsWords.close();
-
-      return new DictionaryLookupBinarySearch(wordList.toArray(new String[0]));
    }
 }
