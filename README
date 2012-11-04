@@ -19,3 +19,12 @@ Limitations:
 - The main one that springs to mind is that only 65536 unique words can be captured in the source text (where different capitalisations of the same word are considered different words). Mind you, running this code over the complete works of Shakespeare from Project Gutenburg only required about 54664 unique words to capture the complete graph.
 - It currently only works on words, but this could be tweaked at a future date.
 - Some abbreviations using periods, such as abbrv., may be considered as the end of a sentence. There's a list of some abbreviations in org.abatons.markov.compiler.SentenceReader that can easily be added to.
+
+Build:
+Easy way is to use Maven if you have it installed already. Just run the command "mvn clean package assembly:single" to build two .jars in the /target directory. One jar is without the dependencies and the other bundles all dependencies in it for running the compiler and using sqlite.
+
+Usage example:
+java -jar MarkovChains-1.0-SNAPSHOT-jar-with-dependencies.jar jabberwocky.txt
+That'll generate order 1 through 4 graphs for the text in jabberwocky.txt and create .raw and .sqlite.db files for each graph.
+
+Use the GraphPersistenceRaw or GraphPersistenceSqlite classes to load and instantiate a Graph object. You can test the Graph by using the cheap and cheerful Parody class.
