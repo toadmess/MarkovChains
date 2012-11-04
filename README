@@ -4,11 +4,16 @@ The graph/chain can be (de)serialized using either a sqlite database or a more s
 It's geared up for storing and using the resulting chain/graph on fairly resource constrained devices like mobiles. However, the compilation of the chain/graph isn't quite so optimised, so that's more suitable for laptops/desktops when the original source text is large. 
 
 Contents and dependencies:
-src/main - The main code tree itself
-src/main/org.abatons.markov.compiler/GraphCompiler.java - This contains a main method that takes text file's filenames as arguments. It'll generate the first 5 order graphs, run a little test parody using each, then save each graph in both a raw format and as a sqlite database.
-src/test - JUnit 4 tests
-lib/commons-io-2.4.jar - used during graph compilation for just a single utility method to read lines of the source text into an array. Can be easily removed.
-lib/sqlite-jdbc-3.7.2.jar - Sqlite JDBC driver, if using sqlite for persistence
+src/main/java - The main code tree itself
+src/test/java - JUnit 4 tests
+
+src/main/java/org/abatons/markov/compiler/GraphCompiler.java - This contains a main method that takes text file's filenames as arguments. It'll generate the first 5 order graphs, run a little test parody using each, then save each graph in both a raw format and as a sqlite database.
+src/main/java/org/abatons/markov/graph - This package, and subpackages, contain all the classes for representing, navigating, (de)serializing graphs, and for running a parody.
+
+Dependencies:
+commons-io-2.4.jar - used during graph compilation for just a single utility method to read lines of the source text into an array. Can be easily removed.
+sqlite-jdbc-3.7.2.jar - Sqlite JDBC driver, if using sqlite for persistence
+junit 4 - For the unit tests
 
 Limitations:
 - The main one that springs to mind is that only 65536 unique words can be captured in the source text (where different capitalisations of the same word are considered different words). Mind you, running this code over the complete works of Shakespeare from Project Gutenburg only required about 54664 unique words to capture the complete graph.
