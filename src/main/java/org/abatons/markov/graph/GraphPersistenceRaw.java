@@ -106,7 +106,7 @@ public class GraphPersistenceRaw implements GraphPersistence {
             final InputStream inputStreamToUse;
             
             assert(this.filename != null || this.inputStream != null);
-            if(this.outputStream != null) {
+            if(this.inputStream != null) {
                inputStreamToUse = this.inputStream;
             } else {
                final File file = new File(filename);
