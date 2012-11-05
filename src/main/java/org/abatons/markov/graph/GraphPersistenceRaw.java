@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,11 +16,23 @@ import org.abatons.markov.graph.dictionary.DictionaryLookupBinarySearch;
 
 public class GraphPersistenceRaw implements GraphPersistence {
    private final String filename;
+   private final InputStream inputStream;
+   private final OutputStream outputStream;
 
    public GraphPersistenceRaw(final String inFilename) {
       this.filename = inFilename;
+      
+      this.inputStream = null;
+      this.outputStream = null;
    }
 
+   public GraphPersistenceRaw(final InputStream inInputStream, final OutputStream inOutputStream) {
+      this.filename = null;
+      
+      this.inputStream = inInputStream;
+      this.outputStream = inOutputStream;
+   }
+   
    @Override
    public void save(final Graph inGraph) {
       final long startTime = System.currentTimeMillis();
@@ -26,7 +40,18 @@ public class GraphPersistenceRaw implements GraphPersistence {
       DataOutputStream dos = null;
       
       try {
-         dos = new DataOutputStream(new FileOutputStream(new File(this.filename)));
+         {
+            final OutputStream outputStreamToUse;
+            
+            assert(this.filename != null || this.outputStream != null);
+            if(this.outputStream != null) {
+               outputStreamToUse = this.outputStream;
+            } else {
+               outputStreamToUse = new FileOutputStream(new File(this.filename));
+            }
+            
+            dos = new DataOutputStream(outputStreamToUse);
+         }
          
          final Dictionary dict = inGraph.getDictionary();
 
@@ -75,16 +100,26 @@ public class GraphPersistenceRaw implements GraphPersistence {
    public Graph load() {
       final long startTime = System.currentTimeMillis();
       
-      final File file = new File(filename);
-      
-      if (!file.exists()) {
-         return null;
-      }
-      
       DataInputStream dis = null; 
-
       try {
-         dis = new DataInputStream(new FileInputStream(file));
+         {         
+            final InputStream inputStreamToUse;
+            
+            assert(this.filename != null || this.inputStream != null);
+            if(this.outputStream != null) {
+               inputStreamToUse = this.inputStream;
+            } else {
+               final File file = new File(filename);
+               
+               if (!file.exists()) {
+                  return null;
+               }
+               
+               inputStreamToUse = new FileInputStream(file);
+            }
+            
+            dis = new DataInputStream(inputStreamToUse);
+         }
          
          final char numWords = dis.readChar();
          final String uniqueAndSortedWords[] = new String[numWords];
