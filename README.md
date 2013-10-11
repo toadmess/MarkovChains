@@ -44,7 +44,7 @@ Two jars will be created under the `compiler/target` directory, which both conta
 
 ### Usage example: For compiling
 
-`java -jar compiler/compiler-1.0-SNAPSHOT-jar-with-dependencies.jar jabberwocky.txt`
+`java -jar compiler/MarkovChains-compiler-1.0-SNAPSHOT-jar-with-dependencies.jar jabberwocky.txt`
 That'll generate order 1 through 4 graphs for the text in the `jabberwocky.txt` file and create both `.raw` and `.sqlite.db` files representing the same Graph object.
 
 ### Usage example: For reading and navigating compiled graphs
