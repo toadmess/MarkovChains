@@ -62,8 +62,8 @@ public class TransitionsContractTest {
     final TransitionProbability tp = t.iterator().next();
 
     assertEquals('a', tp.targetWordId);
-    assertEquals((byte) 1, tp.getNumerator());
-    assertEquals((byte) 1, tp.getDenominator());
+    assertEquals((char) 1, tp.getNumerator());
+    assertEquals((char) 1, tp.getDenominator());
   }
 
   @Test
@@ -76,8 +76,8 @@ public class TransitionsContractTest {
     final TransitionProbability tp = t.iterator().next();
 
     assertEquals('a', tp.targetWordId);
-    assertEquals((byte) 2, tp.getNumerator());
-    assertEquals((byte) 2, tp.getDenominator());
+    assertEquals((char) 2, tp.getNumerator());
+    assertEquals((char) 2, tp.getDenominator());
   }
 
   @Test
@@ -91,13 +91,13 @@ public class TransitionsContractTest {
 
     final TransitionProbability tp1 = i.next();
     assertEquals('a', tp1.targetWordId);
-    assertEquals((byte) 1, tp1.getNumerator());
-    assertEquals((byte) 2, tp1.getDenominator());
+    assertEquals((char) 1, tp1.getNumerator());
+    assertEquals((char) 2, tp1.getDenominator());
 
     final TransitionProbability tp2 = i.next();
     assertEquals('b', tp2.targetWordId);
-    assertEquals((byte) 1, tp2.getNumerator());
-    assertEquals((byte) 2, tp2.getDenominator());
+    assertEquals((char) 1, tp2.getNumerator());
+    assertEquals((char) 2, tp2.getDenominator());
 
     assertFalse(i.hasNext());
   }
@@ -114,13 +114,13 @@ public class TransitionsContractTest {
 
     final TransitionProbability tp1 = i.next();
     assertEquals('a', tp1.targetWordId);
-    assertEquals((byte) 2, tp1.getNumerator());
-    assertEquals((byte) 3, tp1.getDenominator());
+    assertEquals((char) 2, tp1.getNumerator());
+    assertEquals((char) 3, tp1.getDenominator());
 
     final TransitionProbability tp2 = i.next();
     assertEquals('b', tp2.targetWordId);
-    assertEquals((byte) 1, tp2.getNumerator());
-    assertEquals((byte) 3, tp2.getDenominator());
+    assertEquals((char) 1, tp2.getNumerator());
+    assertEquals((char) 3, tp2.getDenominator());
 
     assertFalse(i.hasNext());
   }
@@ -135,10 +135,10 @@ public class TransitionsContractTest {
   public void getNumberTransitions_incrementsWithCallTo_addTransition() {
     final Transitions t = new Transitions();
     
-    t.addTransition('a', (byte)1, (byte)1, false);
+    t.addTransition('a', (char)1, (char)1, false);
     assertEquals(1, t.getNumberTransitions());
     
-    t.addTransition('b', (byte)1, (byte)1, true);
+    t.addTransition('b', (char)1, (char)1, true);
     assertEquals(2, t.getNumberTransitions());
   }
   
@@ -168,7 +168,7 @@ public class TransitionsContractTest {
   public void addTransition_constructsTransitionProbabilityWithCorrectDetails() {
     final Transitions t = new Transitions();
     
-    t.addTransition('a', (byte)21, (byte)23, true);
+    t.addTransition('a', (char)21, (char)23, true);
     
     final Iterator<TransitionProbability> it = t.iterator();
     
@@ -177,17 +177,17 @@ public class TransitionsContractTest {
     final TransitionProbability iterated = it.next();
 
     assertEquals('a', iterated.targetWordId);
-    assertEquals((byte) 21, iterated.getNumerator());
-    assertEquals((byte) 23, iterated.getDenominator());
+    assertEquals((char) 21, iterated.getNumerator());
+    assertEquals((char) 23, iterated.getDenominator());
   }
   
   @Test
   public void addTransition_transitionsAreOrderedBySequenceOfCallsToMethod() {
     final Transitions t = new Transitions();
     
-    t.addTransition('z', (byte)1, (byte)1, false);
-    t.addTransition('m', (byte)1, (byte)1, false);
-    t.addTransition('a', (byte)1, (byte)1, true);
+    t.addTransition('z', (char)1, (char)1, false);
+    t.addTransition('m', (char)1, (char)1, false);
+    t.addTransition('a', (char)1, (char)1, true);
     
     final Iterator<TransitionProbability> it = t.iterator();
     

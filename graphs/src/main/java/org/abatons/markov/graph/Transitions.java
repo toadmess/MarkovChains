@@ -48,18 +48,18 @@ public class Transitions implements Iterable<TransitionProbability> {
      * @param inTargetWordId The ID identifying the word that follows.
      */
     public void recordTransition(final char inTargetWordId) {
-        final byte newDenom;
+        final char newDenom;
         if(this.getNumberTransitions() > 0) {
-            newDenom = (byte) (this.transitions.get(0).getDenominator() + 1);
+            newDenom = (char) (this.transitions.get(0).getDenominator() + 1);
         } else {
-            newDenom = (byte) 1;
+            newDenom = (char) 1;
         }
         
         boolean seenTargetWordBefore = false;
         for(final TransitionProbability t : this.transitions) {
-            final byte newNumer; 
+            final char newNumer; 
             if(inTargetWordId == t.targetWordId) {
-                newNumer = (byte) (t.getNumerator() + 1);
+                newNumer = (char) (t.getNumerator() + 1);
                 seenTargetWordBefore = true;
             } else {
                 newNumer = t.getNumerator();
@@ -69,7 +69,7 @@ public class Transitions implements Iterable<TransitionProbability> {
         }
         
         if(!seenTargetWordBefore) {
-            final TransitionProbability transition = new TransitionProbability(inTargetWordId, (byte) 1, newDenom);
+            final TransitionProbability transition = new TransitionProbability(inTargetWordId, (char) 1, newDenom);
             this.transitions.add(transition);
         }
         
@@ -103,7 +103,7 @@ public class Transitions implements Iterable<TransitionProbability> {
      * 
      * @param isLastToBeAdded False if there further transitions are expected to be added. True if this is thought to be the last to be added. If true, the internal data structures will then be optimised for space. 
      */
-    public void addTransition(final char inTargetWordId, final byte inNumerator, final byte inDenominator, final boolean isLastToBeAdded) {
+    public void addTransition(final char inTargetWordId, final char inNumerator, final char inDenominator, final boolean isLastToBeAdded) {
       this.transitions.add(new TransitionProbability(inTargetWordId, inNumerator, inDenominator));
       
       if(isLastToBeAdded) {

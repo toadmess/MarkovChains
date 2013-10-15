@@ -166,8 +166,8 @@ public class GraphPersistenceSqlite implements GraphPersistence {
          while (hasResultsLeft) {
             final String wordHistory = rsTransitions.getString("history");
             final char tagetWordId = (char) rsTransitions.getInt("target_words_id");
-            final byte numerator = rsTransitions.getByte("numerator");
-            final byte denominator = rsTransitions.getByte("denominator");
+            final char numerator = (char) rsTransitions.getInt("numerator");
+            final char denominator = (char) rsTransitions.getInt("denominator");
 
             if (!wordHistory.equals(currentHistory)) {
                currentHistory = wordHistory;

@@ -79,11 +79,11 @@ public class GraphPersistenceRaw implements GraphPersistence {
              
             for(final TransitionProbability tp : t) {
                dos.writeChar(tp.targetWordId);
-               dos.writeByte(tp.getNumerator());
-               dos.writeByte(tp.getDenominator());
+               dos.writeChar(tp.getNumerator());
+               dos.writeChar(tp.getDenominator());
             }
          }
-         
+
       } catch (final Exception anything) {
          anything.printStackTrace();
       } finally {
@@ -144,8 +144,8 @@ public class GraphPersistenceRaw implements GraphPersistence {
             
             for(char stillToRead = dis.readChar(); stillToRead > 0; stillToRead--) {
                final char targetWordId = dis.readChar();
-               final byte numerator = dis.readByte();
-               final byte denominator = dis.readByte();
+               final char numerator = dis.readChar();
+               final char denominator = dis.readChar();
                
                t.addTransition(targetWordId, numerator, denominator, stillToRead > 1);
             }

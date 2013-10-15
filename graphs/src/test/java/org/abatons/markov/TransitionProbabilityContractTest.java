@@ -8,7 +8,7 @@ import org.junit.Test;
 public class TransitionProbabilityContractTest {
 	@Test
 	public void construction() {
-	    final TransitionProbability tp = new TransitionProbability('a', (byte)1, (byte)1);
+	    final TransitionProbability tp = new TransitionProbability('a', (char)1, (char)1);
 	    
 	    assertEquals('a', tp.targetWordId);
 	    assertEquals(1, tp.getNumerator());
@@ -17,12 +17,12 @@ public class TransitionProbabilityContractTest {
 	
 	@Test
     public void setChance() {
-	    final TransitionProbability tp = new TransitionProbability('a', (byte)1, (byte)1);
+	    final TransitionProbability tp = new TransitionProbability('a', (char)1, (char)1);
 	    
-	    tp.setChance((byte) 23, (byte) 50);
+	    tp.setChance((char) 23, (char) 50);
 	    
-	    assertEquals((byte) 23, tp.getNumerator());
-        assertEquals((byte) 50, tp.getDenominator());
+	    assertEquals((char) 23, tp.getNumerator());
+        assertEquals((char) 50, tp.getDenominator());
         assertEquals('a', tp.targetWordId);
 	}
 }
